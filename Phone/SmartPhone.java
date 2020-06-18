@@ -17,8 +17,8 @@ public abstract class SmartPhone implements ISmartPhone {
     private final String NOME = "impostanome";
     private final String AGGIUNGI = "aggiungicontatto";
     private final String CONNESSI = "mostraconnessi";
-
-    protected final String RESET = "\033[0m"; // Text Reset
+    /** Resetta il colore del testo della console */
+    protected final String RESET = "\033[0m";
 
     /** Nome del proprietario */
     protected String ownerName;
@@ -85,9 +85,11 @@ public abstract class SmartPhone implements ISmartPhone {
     protected abstract void showPrompt();
 
     /**
-     * Fai una chiamata verso un certo numero
+     * Manda un messaggio verso un certo numero
      * 
-     * @param number numero che si vuole chiamare
+     * @param inputDes numero che si vuole chiamare o nome del contatto salvato in
+     *                 rubrica
+     * @param message  testo del messaggio
      */
     protected abstract void sendMessage(String inputDes, String message);
 

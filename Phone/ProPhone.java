@@ -12,7 +12,7 @@ public class ProPhone extends SmartPhone {
     /**
      * Costruttore del ProPhone
      * 
-     * @param number numero del telefono
+     * @param rubric app di rubrica che si sceglie di utilizzare
      */
     public ProPhone(RubricApp rubric) {
         super("Pro-phone");
@@ -122,11 +122,12 @@ public class ProPhone extends SmartPhone {
 
     @Override
     protected void showConnected() {
-        if (nC.getNumber() == "invalidNumber")
+        String connected = nC.showConnected();
+        if (null == connected)
             printOnConsole("Non sei attualmente connesso alla rete");
         else {
             printOnConsole("I seguenti dipositivi sono attualmente connessi alla rete");
-            System.out.println(nC.showConnected());
+            System.out.println(connected);
         }
     }
 }
