@@ -19,13 +19,9 @@ public class Test {
             try {
                 Method m = Test.class.getDeclaredMethod("Test" + i);
 
-                if ((Boolean) m.invoke(null)) {
-                    // System.out.println("Test " + i + " passato");
-                } else {
-                    // System.out.println("Test " + i + " fallito");
+                if (!(Boolean) m.invoke(null))
                     failedTests.add(i);
-                }
-
+                    
             } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
                     | NoSuchMethodException e) {
                 e.printStackTrace();
@@ -200,6 +196,7 @@ public class Test {
         return phone2.lastResult.equals(nome1 + messaggio);
     }
 
+    // Test network dhcp system
     private static boolean Test12() {
         TestPhone phone1 = new TestPhone();
         phone1.connect();

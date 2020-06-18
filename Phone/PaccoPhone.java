@@ -5,10 +5,14 @@ import Phone.Rubric.RubricApp;
 /** Modello di telefono Pacco-phone */
 public class PaccoPhone extends SmartPhone {
     /** Usato per colorare di viola la scrittura nella console */
-    private final String PURPLE_BOLD = "\033[1;35m"; // PURPLE
-
+    private final String PURPLE_BOLD = "\033[1;35m";
+    /** Set di istruzioni */
     private final String COMMANDS = "Comandi:\n| Info  |  AggiungiContatto \"Nome contatto\" numero |\n| EliminaContatto \"Nome contatto\"  |  MostraRubrica |\n| CercaRubrica pattern  |  MostraConnessi |\n| InviaMessaggio [\"Nome contatto\", numero] messaggio  |  ImpostaNome Nome |\n| Connetti  |  Disconnetti |";
 
+    /**
+     * Costruttore del PaccoPhone
+     * @param rubric app di rubrica che si sceglie di utilizzare
+     */
     public PaccoPhone(RubricApp rubric) {
         super("Pacco-phone");
         this.rubric = rubric;
@@ -116,11 +120,12 @@ public class PaccoPhone extends SmartPhone {
 
     @Override
     protected void showConnected() {
-        if (nC.getNumber() == "invalidNumber")
+        String connected = nC.showConnected();
+        if (null == connected)
             printOnConsole("Rete irraggiungibile. Controlla la connessione");
         else {
             printOnConsole("Dispositivi attualmente connessi:");
-            System.out.println(nC.showConnected());
+            System.out.println(connected);
         }
     }
 

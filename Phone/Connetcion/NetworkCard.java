@@ -20,7 +20,6 @@ public class NetworkCard {
      */
     public NetworkCard(SmartPhone phone) {
         this.phone = phone;
-        this.network = Network.getIstance();
     }
 
     /**
@@ -31,7 +30,7 @@ public class NetworkCard {
      * @return se il messaggio è stato inviato con successo
      */
     public boolean sendMessage(String des, String message) {
-        if (null == phoneNumber)
+        if (null == phoneNumber || null == network)
             return false;
         return network.sendMessage(phoneNumber, des, message);
     }
@@ -67,12 +66,15 @@ public class NetworkCard {
      * @return se la connessione è avvenuta con successo
      */
     public boolean connect() {
-        if (null == phoneNumber)
+        if (null == network) {
+            network = Network.getIstance();
             phoneNumber = network.getUniqueNumber(this);
+        }
 
-        if (null == phoneNumber)
+        if (null == phoneNumber) {
+            network = null;
             return false;
-        else
+        } else
             return true;
     }
 
@@ -82,6 +84,7 @@ public class NetworkCard {
      */
     public void disconnect() {
         phoneNumber = network.realeaseUniqueNumber(this);
+        network = null;
     }
 
     /**
@@ -99,6 +102,9 @@ public class NetworkCard {
      * @return lista delle info dei dispositivi connessi
      */
     public String showConnected() {
-        return network.showConnectedUsers();
+        if (null != network)
+            return network.showConnectedUsers();
+        else
+            return null;
     }
 }
