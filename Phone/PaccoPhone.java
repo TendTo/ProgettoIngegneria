@@ -98,9 +98,10 @@ public class PaccoPhone extends SmartPhone {
     }
 
     @Override
-    public void reciveMessage(String src, String message) {
+    public void reciveMessage(String networkId, String src, String message) {
         String srcToDisplay = rubric.getName(src);
-        printOnConsole("Nuovo messaggio da " + (null == srcToDisplay ? src : srcToDisplay));
+        printOnConsole("Messaggio proveniente da " + networkId);
+        printOnConsole("Mittente: " + (null == srcToDisplay ? src : srcToDisplay));
         printOnConsole(message);
     }
 

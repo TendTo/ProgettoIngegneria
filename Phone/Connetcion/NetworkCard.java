@@ -1,10 +1,11 @@
 package Phone.Connetcion;
 
 import Network.Network;
+import Network.NetworkSubscriber;
 import Phone.SmartPhone;
 
 /** Scheda di rete usata dai dispositivi */
-public class NetworkCard {
+public class NetworkCard implements NetworkSubscriber {
 
     /** Numero del telefono */
     private String phoneNumber;
@@ -42,9 +43,14 @@ public class NetworkCard {
      * @param message messaggio ricevuto
      * @return conferma che il messaggio è stato ricevuto
      */
-    public boolean notifyMessage(String src, String message) {
-        phone.reciveMessage(src, message);
-        return true;
+    @Override
+    public boolean notifyMessage(Object sub, String src, String message) {
+        if (sub instanceof Network) {
+            Network n = (Network) sub;
+            phone.reciveMessage(n.getNetworkId(), src, message);
+            return true;
+        } else
+            return false;
     }
 
     /**
@@ -52,6 +58,7 @@ public class NetworkCard {
      * 
      * @return numero del telefono
      */
+    @Override
     public String getNumber() {
         if (null == phoneNumber)
             return "invalidNumber";
@@ -92,7 +99,8 @@ public class NetworkCard {
      * 
      * @return info pubbliche del dispositivo
      */
-    public String getPhonePublicInfo() {
+    @Override
+    public String getPublicInfo() {
         return phone.getOwner() + "\t" + phoneNumber;
     }
 
@@ -107,4 +115,5 @@ public class NetworkCard {
         else
             return null;
     }
+
 }
