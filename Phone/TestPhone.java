@@ -55,7 +55,7 @@ public class TestPhone extends SmartPhone {
     }
 
     @Override
-    public void reciveMessage(String src, String message) {
+    public void reciveMessage(String networkId, String src, String message) {
         String srcToDisplay = rubric.getName(src);
         lastResult = (null == srcToDisplay ? src : srcToDisplay) + message;
     }

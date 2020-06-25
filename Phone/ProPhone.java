@@ -82,9 +82,10 @@ public class ProPhone extends SmartPhone {
     }
 
     @Override
-    public void reciveMessage(String src, String message) {
+    public void reciveMessage(String networkId, String src, String message) {
         String srcToDisplay = rubric.getName(src);
         printOnConsole("Hai appena ricevuto un messaggio da " + (null == srcToDisplay ? src : srcToDisplay));
+        printOnConsole("La rete da cui proviene e' " + networkId);
         printOnConsole(message);
     }
 

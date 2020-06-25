@@ -99,7 +99,7 @@ public abstract class SmartPhone implements ISmartPhone {
      * @param src     numero identificativo del mittente del messaggio
      * @param message corpo del messaggio
      */
-    public abstract void reciveMessage(String src, String message);
+    public abstract void reciveMessage(String networkId, String src, String message);
 
     /** Prova a connetterti alla rete interna aziendale */
     protected abstract void connect();

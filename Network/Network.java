@@ -1,19 +1,24 @@
 package Network;
 
-import Phone.Connetcion.NetworkCard;
 import java.util.List;
 import java.util.ArrayList;
 
 /** Classe che rappresenta la rete interna aziendale */
 public class Network {
+    private final String networkId;
     /** Istanza singleton della classe */
     private static Network singleton;
     /** Lista dei numeri univoci disponibili */
     private List<String> availableUniqueNumbers = new ArrayList<>();
     /** Lista delle schede di rete attualmente connessi */
-    private List<NetworkCard> connectedNetworkCard = new ArrayList<>();
+    private List<NetworkSubscriber> connectedNetworkSubscribers = new ArrayList<>();
 
+    /**
+     * Costruttore privato della classe Network, inizializza la pool di numeri
+     * validi
+     */
     private Network() {
+        networkId = "Rete aziendale";
         inizializeUniqueNumbers();
     }
 
@@ -22,6 +27,15 @@ public class Network {
      */
     public void reset() {
         singleton = null;
+    }
+
+    /**
+     * Getter per il networkId
+     * 
+     * @return networkId
+     */
+    public String getNetworkId() {
+        return networkId;
     }
 
     /**
@@ -39,14 +53,14 @@ public class Network {
     /**
      * Connetti la scheda di rete alla rete fornendogli un identificativo univoco
      * 
-     * @param nC scheda di rete che richiede la connessione
+     * @param nS scheda di rete che richiede la connessione
      * @return identificativo che la scheda userà
      */
-    public String getUniqueNumber(NetworkCard nC) {
+    public String getUniqueNumber(NetworkSubscriber nS) {
         if (availableUniqueNumbers.size() <= 0)
             return null;
         else {
-            connectedNetworkCard.add(nC);
+            connectedNetworkSubscribers.add(nS);
             return availableUniqueNumbers.remove(0);
         }
     }
@@ -55,15 +69,15 @@ public class Network {
      * Disconnetti la scheda di rete dalla rete resctituendo l'identificativo al
      * pool di quelli disponibili
      * 
-     * @param nC scheda di rete che richiede la disconnessione
+     * @param nS scheda di rete che richiede la disconnessione
      * @return null
      */
-    public String realeaseUniqueNumber(NetworkCard nC) {
-        if (!connectedNetworkCard.contains(nC))
+    public String realeaseUniqueNumber(NetworkSubscriber nS) {
+        if (!connectedNetworkSubscribers.contains(nS))
             return null;
 
-        connectedNetworkCard.remove(nC);
-        availableUniqueNumbers.add(nC.getNumber());
+        connectedNetworkSubscribers.remove(nS);
+        availableUniqueNumbers.add(nS.getNumber());
         return null;
     }
 
@@ -83,9 +97,9 @@ public class Network {
      * @return se il messaggio è stato consegnato con successo
      */
     public boolean sendMessage(String src, String des, String message) {
-        for (NetworkCard nC : connectedNetworkCard)
-            if (nC.getNumber().equals(des))
-                return nC.notifyMessage(src, message);
+        for (NetworkSubscriber nS : connectedNetworkSubscribers)
+            if (nS.getNumber().equals(des))
+                return nS.notifyMessage(this, src, message);
         return false;
     }
 
@@ -97,10 +111,9 @@ public class Network {
      */
     public String showConnectedUsers() {
         String result = "";
-        for (NetworkCard nCard : connectedNetworkCard) {
-            result += nCard.getPhonePublicInfo() + "\n";
+        for (NetworkSubscriber nS : connectedNetworkSubscribers) {
+            result += nS.getPublicInfo() + "\n";
         }
         return result;
     }
-
 }
